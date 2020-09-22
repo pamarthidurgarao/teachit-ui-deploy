@@ -23,8 +23,7 @@ dist/
 nbdist/
 .nb-gradle/
 .mvn/**
-client/node_modules
-client/package-lock.json
-client/dist/**
+my-class/node_modules
+my-class/package-lock.json
+my-class/dist/**
 logs/**
-functions/stub-messaging-fun/local.settings.json
