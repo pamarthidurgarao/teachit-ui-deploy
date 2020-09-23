@@ -57,12 +57,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CallModal({ callId, playing, toggle }) {
+export default function CallModal({ callId, setOpen, open, toggle }) {
   const classes = useStyles();
   const history = useHistory();
 
   const [modalStyle] = useState(getModalStyle);
-  const [open, setOpen] = useState(true);
   const [user, setUser] = useState();
 
   const handleOpen = () => {
@@ -125,9 +124,6 @@ export default function CallModal({ callId, playing, toggle }) {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        Open Modal
-      </button>
       <Modal
         open={open}
         onClose={handleClose}

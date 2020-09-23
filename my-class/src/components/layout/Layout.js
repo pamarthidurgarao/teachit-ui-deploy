@@ -53,7 +53,9 @@ function Layout(props) {
   React.useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
     socket.on(user._id, (toId) => {
+      console.log(open);
       setOpen(true);
+      console.log(open);
       toggle();
       setCallId(toId);
     });
@@ -83,7 +85,12 @@ function Layout(props) {
           </div>
         </div>
         {open ? (
-          <CallModal callId={callId} playing={playing} toggle={toggle} />
+          <CallModal
+            callId={callId}
+            setOpen={setOpen}
+            open={open}
+            toggle={toggle}
+          />
         ) : (
           ""
         )}

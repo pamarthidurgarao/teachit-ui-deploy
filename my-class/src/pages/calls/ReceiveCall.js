@@ -5,8 +5,10 @@ import MicOffIcon from "@material-ui/icons/MicOff";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import VideocamOffIcon from "@material-ui/icons/VideocamOff";
 import Peer from "peerjs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import io from "socket.io-client";
+import config from "../../config";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -37,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ReceiveCall() {
+  const socket = io(config.socketEndpoint);
   const history = useHistory();
   const params = useParams();
   const callId = params.id;
@@ -50,13 +53,14 @@ export default function ReceiveCall() {
   const peer = new Peer(user._id, {
     port: "443",
     secure: true,
-    host: "school-peer.herokuapp.com",
+    host: config.peerEndpoint,
   });
 
   React.useEffect(() => {
     videoGrid = document.getElementById("video-grid");
     console.log("hai");
     loadMedia();
+    callEndSubscription();
     return () => {
       if (stream)
         stream.getTracks().forEach(function (track) {
@@ -64,6 +68,14 @@ export default function ReceiveCall() {
         });
     };
   }, [userId]);
+
+  useEffect(() => {
+    return () => {
+      console.log("End");
+      peer.disconnect();
+      peer.destroy();
+    };
+  }, []);
 
   function switchVideo(val) {
     setVideo(val);
@@ -84,10 +96,17 @@ export default function ReceiveCall() {
       navigator.userAgent.match(/Windows Phone/i)
     );
   }
-  function callEnd() {
-    stream.getTracks().forEach(function (track) {
-      track.stop();
+  function callEndSubscription() {
+    socket.on(user._id + "close", (toId) => {
+      callEnd(false);
     });
+  }
+  function callEnd(type) {
+    if (stream)
+      stream.getTracks().forEach(function (track) {
+        track.stop();
+      });
+    if (type) notifyUser(callId + "close", "");
     history.push("/app/contacts");
   }
   function loadMedia() {
@@ -110,7 +129,6 @@ export default function ReceiveCall() {
         setTimeout(() => {
           var call = peer.call(callId, stream);
           console.log("Calling to the diler {}", call);
-          debugger;
           if (call)
             call.on("stream", function (destinationStream) {
               console.log("source1 stream connected");
@@ -137,9 +155,27 @@ export default function ReceiveCall() {
     videoGrid.append(video);
   }
 
+  function notifyUser(from, to) {
+    fetch(config.apiEndpoint + "/teachit/api/v1/user/" + to + "/" + from, {
+      method: "get",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((Response) => Response.json())
+      .then((response) => {
+        if (response) {
+          console.log(response);
+        } else {
+          console.log("unable to inser");
+        }
+      });
+  }
+
   return (
     <div>
-      <div className="row" container>
+      <div className="row">
         <div id="video-grid" className=""></div>
       </div>
       <AppBar position="fixed" color="primary" className={classes.appBar}>
@@ -163,7 +199,7 @@ export default function ReceiveCall() {
             </IconButton>
             <IconButton
               color="inherit"
-              onClick={() => callEnd()}
+              onClick={() => callEnd(true)}
               edge="end"
               className={classes.callEndBtn}
             >

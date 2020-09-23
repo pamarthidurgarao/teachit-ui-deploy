@@ -66,7 +66,7 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
           setIsLoading(false);
           dispatch({ type: "LOGIN_SUCCESS" });
 
-          history.push("/app/calls");
+          history.push("/app/contacts");
         } else {
           console.log("unable to inser");
         }
@@ -92,7 +92,7 @@ function createUser(dispatch, data, history) {
       if (response.user) {
         localStorage.setItem("user", JSON.stringify(response.user));
         dispatch({ type: "LOGIN_SUCCESS" });
-        history.push("/app/calls");
+        history.push("/app/contacts");
       } else {
         console.log("unable to inser");
       }

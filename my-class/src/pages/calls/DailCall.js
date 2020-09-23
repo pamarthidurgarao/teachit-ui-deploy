@@ -5,8 +5,10 @@ import MicOffIcon from "@material-ui/icons/MicOff";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import VideocamOffIcon from "@material-ui/icons/VideocamOff";
 import Peer from "peerjs";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import io from "socket.io-client";
+import config from "../../config";
 import "./styles.scss";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DailCall() {
+  const socket = io(config.socketEndpoint);
   const params = useParams();
   const history = useHistory();
   const callId = params.id;
@@ -51,20 +54,39 @@ export default function DailCall() {
   const peer = new Peer(user._id, {
     port: "443",
     secure: true,
-    host: "school-peer.herokuapp.com",
+    host: config.peerEndpoint,
   });
 
   useEffect(() => {
     videoGrid = document.getElementById("video-grid");
-    callUser(user._id, callId);
+    notifyUser(user._id, callId);
+    callEndSubscription();
     loadMedia();
   }, [userId]);
 
   useEffect(() => {
     return () => {
       console.log("End");
+      peer.disconnect();
+      peer.destroy();
     };
   }, []);
+
+  useLayoutEffect(() => {
+    function updateSize() {
+      // setSize([window.innerWidth, window.innerHeight]);
+    }
+    window.addEventListener("resize", updateSize);
+    updateSize();
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+
+  function callEndSubscription() {
+    socket.on(user._id + "close", (toId) => {
+      debugger;
+      callEnd(false);
+    });
+  }
 
   function switchVideo(val) {
     setVideo(val);
@@ -76,10 +98,12 @@ export default function DailCall() {
     stream.getAudioTracks()[0].enabled = val;
   }
 
-  function callEnd() {
-    stream.getTracks().forEach(function (track) {
-      track.stop();
-    });
+  function callEnd(type) {
+    if (stream)
+      stream.getTracks().forEach(function (track) {
+        track.stop();
+      });
+    if (type) notifyUser(user._id, callId + "close");
     history.push("/app/contacts");
   }
 
@@ -94,20 +118,14 @@ export default function DailCall() {
       navigator.userAgent.match(/Windows Phone/i)
     );
   }
-  function callUser(from, to) {
-    fetch(
-      "https://teachit-api.herokuapp.com/teachit/api/v1/user/" +
-        to +
-        "/" +
-        from,
-      {
-        method: "get",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    )
+  function notifyUser(from, to) {
+    fetch(config.apiEndpoint + "/teachit/api/v1/user/" + to + "/" + from, {
+      method: "get",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
       .then((Response) => Response.json())
       .then((response) => {
         if (response) {
@@ -135,7 +153,6 @@ export default function DailCall() {
         addVideoStream(myVideo, stream);
         console.log("Call started");
         peer.on("call", function (call) {
-          debugger;
           console.log("Received the call from source2");
           call.answer(stream);
           call.on("stream", function (userStream) {
@@ -151,6 +168,12 @@ export default function DailCall() {
               addVideoStream(myVide, userStream);
             }
           });
+          call.on("disconnected", function () {
+            console.log("disconnected");
+          });
+          call.on("close", function () {
+            console.log("close");
+          });
         });
       });
   }
@@ -165,7 +188,7 @@ export default function DailCall() {
 
   return (
     <div>
-      <div className="row" container>
+      <div className="row">
         <div id="video-grid" className=""></div>
       </div>
       <AppBar position="fixed" color="primary" className={classes.appBar}>
@@ -189,7 +212,7 @@ export default function DailCall() {
             </IconButton>
             <IconButton
               color="inherit"
-              onClick={() => callEnd()}
+              onClick={() => callEnd(true)}
               edge="end"
               className={classes.callEndBtn}
             >
