@@ -8,6 +8,10 @@ import Calls from "../../pages/calls/Calls";
 import DailCall from "../../pages/calls/DailCall";
 import ReceiveCall from "../../pages/calls/ReceiveCall";
 import Contacts from "../../pages/contacts/Contacts";
+import Cource from "../../pages/cources/Cource";
+import Cources from "../../pages/cources/Cources";
+import Listner from "../../pages/cources/Listner";
+import Teacher from "../../pages/cources/Teacher";
 import Messages from "../../pages/messages/Messages";
 // components
 import Header from "../header/Header";
@@ -81,6 +85,10 @@ function Layout(props) {
               <Route path="/app/call2/:id" component={DailCall} />
               <Route path="/app/messages" component={Messages} />
               <Route path="/app/contacts" component={Contacts} />
+              <Route path="/app/cources" component={Cources} />
+              <Route path="/app/cource/:id" component={Cource} />
+              <Route path="/app/class/:id" component={Teacher} />
+              <Route path="/app/class2/:id" component={Listner} />
             </Switch>
           </div>
         </div>

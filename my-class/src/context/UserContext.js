@@ -1,4 +1,5 @@
 import React from "react";
+import config from "../config";
 
 var UserStateContext = React.createContext();
 var UserDispatchContext = React.createContext();
@@ -145,6 +146,24 @@ function signOut(dispatch, history) {
   history.push("/login");
 }
 
+function notifyUser(to, from) {
+  fetch(config.apiEndpoint + "/teachit/api/v1/user/" + to + "/" + from, {
+    method: "get",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  })
+    .then((Response) => Response.json())
+    .then((response) => {
+      if (response) {
+        console.log(response);
+      } else {
+        console.log("unable to inser");
+      }
+    });
+}
+
 export {
   UserProvider,
   useUserState,
@@ -154,4 +173,5 @@ export {
   getContacts,
   signOut,
   getUserById,
+  notifyUser,
 };

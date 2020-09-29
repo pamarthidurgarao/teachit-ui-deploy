@@ -3,6 +3,7 @@ import {
   ArrowBack as ArrowBackIcon,
   Call,
   Contacts,
+  MenuBook,
   Message,
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
@@ -24,6 +25,7 @@ const structure = [
   { id: 1, label: "Calls", link: "/app/calls", icon: <Call /> },
   { id: 2, label: "Messages", link: "/app/messages", icon: <Message /> },
   { id: 3, label: "Contacts", link: "/app/contacts", icon: <Contacts /> },
+  { id: 4, label: "Cources", link: "/app/cources", icon: <MenuBook /> },
 ];
 
 function Sidebar({ location }) {

@@ -5,6 +5,10 @@ import Calls from "../pages/calls/Calls";
 import DailCall from "../pages/calls/DailCall";
 import ReceiveCall from "../pages/calls/ReceiveCall";
 import Contacts from "../pages/contacts/Contacts";
+import Cource from "../pages/cources/Cource";
+import Cources from "../pages/cources/Cources";
+import Listner from "../pages/cources/Listner";
+import Teacher from "../pages/cources/Teacher";
 import Messages from "../pages/messages/Messages";
 // components
 import Layout from "./layout/Layout";
@@ -32,6 +36,10 @@ export default function App() {
         <PrivateRoute path="/app/call2/:id" component={DailCall} />
         <PrivateRoute path="/app/messages" component={Messages} />
         <PrivateRoute path="/app/contacts" component={Contacts} />
+        <PrivateRoute path="/app/cources" component={Cources} />
+        <PrivateRoute path="/app/cources/:id" component={Cource} />
+        <PrivateRoute path="/app/class/:id" component={Teacher} />
+        <PrivateRoute path="/app/class2/:id" component={Listner} />
         <PublicRoute path="/login" component={Login} />
         <PublicRoute path="/signup" component={SignUp} />
         <Route component={Error} />
