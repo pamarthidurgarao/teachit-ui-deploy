@@ -11,7 +11,9 @@ import Contacts from "../../pages/contacts/Contacts";
 import Cource from "../../pages/cources/Cource";
 import Cources from "../../pages/cources/Cources";
 import Listner from "../../pages/cources/Listner";
+import Room from "../../pages/cources/Room";
 import Teacher from "../../pages/cources/Teacher";
+import Meeting from "../../pages/meeting/Meeting";
 import Messages from "../../pages/messages/Messages";
 // components
 import Header from "../header/Header";
@@ -89,6 +91,8 @@ function Layout(props) {
               <Route path="/app/cource/:id" component={Cource} />
               <Route path="/app/class/:id" component={Teacher} />
               <Route path="/app/class2/:id" component={Listner} />
+              <Route path="/app/room/:roomID" component={Room} />
+              <Route path="/app/meeting" component={Meeting} />
             </Switch>
           </div>
         </div>

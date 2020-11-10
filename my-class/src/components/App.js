@@ -8,7 +8,9 @@ import Contacts from "../pages/contacts/Contacts";
 import Cource from "../pages/cources/Cource";
 import Cources from "../pages/cources/Cources";
 import Listner from "../pages/cources/Listner";
+import Room from "../pages/cources/Room";
 import Teacher from "../pages/cources/Teacher";
+import Meeting from "../pages/meeting/Meeting";
 import Messages from "../pages/messages/Messages";
 // components
 import Layout from "./layout/Layout";
@@ -40,6 +42,8 @@ export default function App() {
         <PrivateRoute path="/app/cources/:id" component={Cource} />
         <PrivateRoute path="/app/class/:id" component={Teacher} />
         <PrivateRoute path="/app/class2/:id" component={Listner} />
+        <PrivateRoute path="/app/room/:roomID" component={Room} />
+        <PrivateRoute path="/app/meeting" component={Meeting} />
         <PublicRoute path="/login" component={Login} />
         <PublicRoute path="/signup" component={SignUp} />
         <Route component={Error} />

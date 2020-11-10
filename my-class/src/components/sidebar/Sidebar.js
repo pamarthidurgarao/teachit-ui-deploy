@@ -4,8 +4,9 @@ import {
   Call,
   Contacts,
   MenuBook,
-  Message,
+  Message
 } from "@material-ui/icons";
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import { useTheme } from "@material-ui/styles";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
@@ -14,7 +15,7 @@ import { withRouter } from "react-router-dom";
 import {
   toggleSidebar,
   useLayoutDispatch,
-  useLayoutState,
+  useLayoutState
 } from "../../context/LayoutContext";
 // components
 import SidebarLink from "./SidebarLink";
@@ -26,6 +27,7 @@ const structure = [
   { id: 2, label: "Messages", link: "/app/messages", icon: <Message /> },
   { id: 3, label: "Contacts", link: "/app/contacts", icon: <Contacts /> },
   { id: 4, label: "Cources", link: "/app/cources", icon: <MenuBook /> },
+  { id: 5, label: "Meeting", link: "/app/meeting", icon: <MeetingRoomIcon /> },
 ];
 
 function Sidebar({ location }) {

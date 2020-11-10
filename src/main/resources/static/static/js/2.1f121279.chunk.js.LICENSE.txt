@@ -19,6 +19,10 @@ object-assign
 
 /*! https://mths.be/utf8js v2.1.2 by @mathias */
 
+/*! queue-microtask. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
 /**
  * A better abstraction over CSS.
  *

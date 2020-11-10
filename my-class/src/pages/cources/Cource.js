@@ -1,8 +1,9 @@
 import { Button } from "@material-ui/core";
 import React from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { v1 as uuid } from "uuid";
 
-export default function Cource() {
+export default function Cource(props) {
   const params = useParams();
   const history = useHistory();
   const classId = params.id;
@@ -14,6 +15,11 @@ export default function Cource() {
   function joinClass() {
     history.push("/app/class2/" + classId);
   }
+  function create() {
+    const id = uuid();
+    history.push(`/app/room/${id}`);
+  }
+
   return (
     <div style={{ width: "100%" }}>
       <h2>Cource</h2>
@@ -35,6 +41,7 @@ export default function Cource() {
       >
         Join Class
       </Button>
+      <button onClick={create}>Create Room</button>
     </div>
   );
 }
