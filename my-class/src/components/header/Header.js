@@ -18,6 +18,8 @@ import {
 import { signOut, useUserDispatch } from "../../context/UserContext";
 // styles
 import useStyles from "./styles";
+import './header.scss';
+import { Link } from "react-router-dom";
 
 export default function Header(props) {
   var classes = useStyles();
@@ -30,6 +32,8 @@ export default function Header(props) {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const [menuOpen,setMenuOpen] = useState(false);
+  console.log(process.env.PUBLIC_URL)
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
@@ -51,71 +55,28 @@ export default function Header(props) {
   var [isSearchOpen, setSearchOpen] = useState(false);
 
   return (
-    <AppBar position="fixed" className={classes.appBar}>
-      <Toolbar className={classes.toolbar} variant="dense">
-        <IconButton
-          color="inherit"
-          onClick={() => toggleSidebar(layoutDispatch)}
-          className={classNames(
-            classes.headerMenuButton,
-            classes.headerMenuButtonCollapse
-          )}
-        >
-          {layoutState.isSidebarOpened ? (
-            <ArrowBackIcon
-              classes={{
-                root: classNames(
-                  classes.headerIcon,
-                  classes.headerIconCollapse
-                ),
-              }}
-            />
-          ) : (
-            <MenuIcon
-              classes={{
-                root: classNames(
-                  classes.headerIcon,
-                  classes.headerIconCollapse
-                ),
-              }}
-            />
-          )}
-        </IconButton>
-        <Typography className={classes.title} variant="h6" noWrap>
-          TeachIT
-        </Typography>
-
-        <div>
-          <IconButton
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleMenu}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={open}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={logOut}>Sign Out</MenuItem>
-          </Menu>
+  <header>
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-6">
+          <span className="menu"  onClick={() =>{console.log(menuOpen); setMenuOpen(!menuOpen)}}><img src={process.env.PUBLIC_URL + '/images/menu.png'}/></span>
+          <span className="logo py-2">ONLINE LEARNING...<span className="d-block slogan">TEACHING &TRAINING</span></span>
         </div>
-      </Toolbar>
-    </AppBar>
+         <div className="col-6 text-right">
+           <ul className="headerList">
+              <li className="search"><img src={process.env.PUBLIC_URL + '/images/search.png'}/></li>
+             <li><img src={process.env.PUBLIC_URL + '/images/account.png'}/></li>
+           </ul>
+         </div>
+      </div>
+    </div>
+    <div className={menuOpen?'menuList active':'menuList'}>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+         <li><Link to="/app/contacts">Contacts</Link></li>
+          <li><Link to="/app/meeting">Meeting</Link></li>
+      </ul>
+    </div>
+  </header>
   );
 }

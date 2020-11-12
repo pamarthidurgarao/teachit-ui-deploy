@@ -49,7 +49,7 @@ export default function Meeting(props) {
     const user = JSON.parse(localStorage.getItem("user"));
     const classes = useStyles();
     const [peers, setPeers] = useState([]);
- 
+
     const [audio, setAudio] = useState(true);
     const [video, setVideo] = useState(true);
     const [screenShare, setScreenShare] = useState(true);
@@ -63,9 +63,8 @@ export default function Meeting(props) {
         socketRef.current = io.connect(config.socketEndpoint);
         navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then(stream => {
             userVideo.current.srcObject = stream;
-            socketRef.current.emit("join room", roomID,user._id);
+            socketRef.current.emit("join room", roomID, user._id);
             socketRef.current.on("all users", users => {
-                debugger
                 const peers = [];
                 users.forEach(userID => {
                     const peer = createPeer(userID.socketId, socketRef.current.id, stream);
@@ -98,27 +97,27 @@ export default function Meeting(props) {
     function switchVideo(val) {
         setVideo(val);
         userVideo.current.srcObject.getVideoTracks()[0].enabled = val;
-      }
-    
-      function switchAudio(val) {
+    }
+
+    function switchAudio(val) {
         setAudio(val);
         userVideo.current.srcObject.getAudioTracks()[0].enabled = val;
-      }
-    
-      function startSharing(val) {
+    }
+
+    function startSharing(val) {
         setScreenShare(val);
         navigator.mediaDevices
-          .getDisplayMedia({
-            video: true,
-            audio: false,
-          })
-          .then((screenStream) => {
-            debugger;
-            // let call = peerScreen.call("5f60b47d07f3730004d08150", screenStream);
-            // peerScreen.call("5f674d70a436830004cabdbe", screenStream);
-          });
-      }
-      
+            .getDisplayMedia({
+                video: true,
+                audio: false,
+            })
+            .then((screenStream) => {
+                debugger;
+                // let call = peerScreen.call("5f60b47d07f3730004d08150", screenStream);
+                // peerScreen.call("5f674d70a436830004cabdbe", screenStream);
+            });
+    }
+
     function createPeer(userToSignal, callerID, stream) {
         const peer = new Peer({
             initiator: true,
@@ -150,44 +149,27 @@ export default function Meeting(props) {
     }
 
     return (
-        <Container>
-            <StyledVideo muted ref={userVideo} autoPlay playsInline />
-            {peers.map((peer, index) => {
-                return (
-                    <Video key={index} peer={peer} />
-                );
-            })}
-            <AppBar position="fixed" color="primary" className={classes.appBar}>
-        <Toolbar>
-          <div className={classes.grow}>
-            <IconButton
-              color="inherit"
-              onClick={() => startSharing(!screenShare)}
-              edge="end"
-              className={classes.controlBtn}
-            >
-              {screenShare ? <ScreenShareIcon /> : <StopScreenShareIcon />}
-            </IconButton>
-            <IconButton
-              color="inherit"
-              onClick={() => switchVideo(!video)}
-              edge="end"
-              className={classes.controlBtn}
-            >
-              {video ? <VideocamIcon /> : <VideocamOffIcon />}
-            </IconButton>
-            <IconButton
-              edge="end"
-              color="inherit"
-              onClick={() => switchAudio(!audio)}
-              className={classes.controlBtn}
-            >
-              {audio ? <MicIcon /> : <MicOffIcon />}
-            </IconButton>
-            
-          </div>
-        </Toolbar>
-      </AppBar>
-        </Container>
+        <div className="container-fluid p-0">
+            <div className="row m-0">
+                <div className="col-6 p-0">
+                    <StyledVideo muted ref={userVideo} autoPlay playsInline />
+                </div>
+                {peers.map((peer, index) => {
+                    return (
+                        <div className="col-6 p-0">
+                            <Video key={index} peer={peer} />
+                        </div>
+                    );
+                })}
+            </div>
+            <footer>
+
+                <button type="button" className="custom-btn" onClick={() => switchAudio(!audio)}><img src={process.env.PUBLIC_URL + '/images/chat.png'} /></button>
+                <button type="button" className="custom-btn" onClick={() => switchAudio(!audio)}><img src={process.env.PUBLIC_URL + '/images/muted.png'} /></button>
+                <button type="button" className="custom-btn" onClick={() => startSharing(!screenShare)} ><img src={process.env.PUBLIC_URL + '/images/monitoring.png'} /></button>
+                <button type="button" className="custom-btn" onClick={() => switchVideo(!video)}><img src={process.env.PUBLIC_URL + '/images/video-open.png'} /></button>
+                <button type="button" className="custom-btn"><img src={process.env.PUBLIC_URL + '/images/oncall.png'} /></button>
+            </footer>
+        </div>
     );
 }

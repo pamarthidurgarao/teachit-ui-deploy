@@ -53,39 +53,24 @@ export default function Contacts() {
     // setLoading(false);
   };
   return (
-    <>
-      <h1>Contacts</h1>
-      <div className={classes.demo}>
-        <List dense={dense}>
-          {data.length > 0
+    <div className="container-fluid main-content-space">
+      <h1 className="mt-0 pt-0">Contacts</h1>
+      <ul className="list-1 pt-2">
+        {data.length > 0
             ? data.map(({ firstName, lastName, email, _id }) => (
-                <ListItem key={_id}>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <Message />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={firstName + " " + lastName}
-                    secondary={email}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton
-                      edge="end"
-                      aria-label="audio"
-                      onClick={() => call(_id)}
-                    >
-                      <Call />
-                    </IconButton>
-                    <IconButton edge="end" aria-label="video">
-                      <VideoCall />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))
+        <li>
+          <div className="box-1 position-relative">
+            <span className="name">{firstName} {lastName}</span>
+            <span className="email">{email}</span>
+            <div className="c-btn-group">
+            <button type="button" className="custom-btn mx-0" onClick={() => call(_id)}><img src={process.env.PUBLIC_URL + '/images/oncall.png'}/></button>
+            <button type="button" className="custom-btn mr-0 ml-1"><img src={process.env.PUBLIC_URL + '/images/video-open.png'}/></button>
+          </div>
+          </div>
+          </li> ))
             : []}
-        </List>
-      </div>
+      </ul>
+     
       <Backdrop
         className={classes.backdrop}
         open={loading}
@@ -93,6 +78,6 @@ export default function Contacts() {
       >
         <CircularProgress />
       </Backdrop>
-    </>
+    </div>
   );
 }

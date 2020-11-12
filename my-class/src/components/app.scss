@@ -1,0 +1,107 @@
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600@400&display=swap');
+
+body{
+    background-color: #000 !important;
+}
+main{
+    position: relative;
+    padding-top: 45px;
+    background: #000;
+    width: 100%;
+}
+
+.main-content-space{
+padding-top: 10px
+}
+
+h1{
+    font-family: 'Open Sans', sans-serif;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.list-1{
+    list-style: none;
+    padding: 0;
+    margin: 0 -2px;
+    li{
+        display: inline-block;
+        width: 25%;
+        padding: 0px 2px 4px 2px;
+        @media screen and (max-width: 479px) {
+            width: 100%;
+        }
+        @media all and (max-width: 767px) and (min-width: 480px) {
+width: 50%;
+        }
+         @media all and (max-width: 991px) and (min-width: 768px) {
+width:33.33%;
+        }
+    }
+}
+.box-1{
+        font-family: 'Open Sans', sans-serif;
+    color: #fff;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+    background: rgba(143,149,230, 0.2);
+    padding: 6px 8px 8px 8px;
+    border-radius: 2px;
+    .name{
+        display: block;
+    }
+    .email{
+        font-size: 11px;
+        display: block;
+        opacity: 0.8;
+    }
+    .c-btn-group{
+        position: absolute;
+        right: 8px;
+        bottom: 9px;
+    }
+    .custom-btn{
+width: 28px;
+    height: 28px;
+    border: 0;
+    background-color: transparent;
+    padding: 0 0px 0 0;
+    margin-left: 8px;
+img{
+   width: 28px;
+height: 28px;
+}
+    }
+}
+footer{
+    position: fixed;
+    bottom: 50px;
+    text-align: center;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 9999;
+    color:#fff;
+}
+.custom-btn{
+width: 32px;
+    height: 32px;
+    border: 0;
+    background-color: transparent;
+    padding: 0 0px 0 0;
+    margin:0 6px;
+img{
+   width: 32px;
+height: 32px;
+}
+}
+
+.zTiuq{
+    width: 100% !important;
+    height: 100% !important;
+    position: relative;
+    top: -2px;
+}

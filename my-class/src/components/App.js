@@ -17,6 +17,7 @@ import Layout from "./layout/Layout";
 // pages
 import Login from "./Login";
 import SignUp from "./Signup";
+import './app.scss';
 
 export default function App() {
   // global

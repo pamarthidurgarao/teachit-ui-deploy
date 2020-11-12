@@ -70,15 +70,10 @@ function Layout(props) {
   var layoutState = useLayoutState();
 
   return (
-    <div className={classes.root}>
-      <>
+    <div className="">
         <Header history={props.history} />
-        <Sidebar />
-        <div
-          className={classnames(classes.content, {
-            [classes.contentShift]: layoutState.isSidebarOpened,
-          })}
-        >
+       <main>
+        <div className="">
           <div style={style}>
             {/* <div className={classes.fakeToolbar} /> */}
             <Switch>
@@ -106,7 +101,7 @@ function Layout(props) {
         ) : (
           ""
         )}
-      </>
+        </main>
     </div>
   );
 }
